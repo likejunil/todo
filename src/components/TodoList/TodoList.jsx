@@ -8,7 +8,7 @@ const TodoList = () => {
         // {id: 100, title: "인생의 진리를 깨닫기", done: false},
     ]);
     
-    const addTodo = (todo) => {
+    const onAdd = (todo) => {
         setList([...list, {
             id: uuidv4(),
             title: todo,
@@ -16,16 +16,22 @@ const TodoList = () => {
         }]);
     };
     
+    const onDel = (event) => {
+        const id = event.currentTarget.parentNode.id;
+        setList(list.filter(m => m.id !== id));
+    };
+    
     return (
         <div>
             <ul>
-                {list.map(m => <li key={m.id}>
-                    <input type="checkbox"/>
-                    {m.title}
-                    <FaTrashAlt/>
-                </li>)}
+                {list.map(m =>
+                    <li key={m.id} id={m.id}>
+                        <input type="checkbox"/>
+                        {m.title}
+                        <FaTrashAlt onClick={onDel}/>
+                    </li>)}
             </ul>
-            <AddTodo addTodo={addTodo}/>
+            <AddTodo addTodo={onAdd}/>
         </div>
     );
 };
