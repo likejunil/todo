@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
 import {v4 as uuidv4} from "uuid";
+import {DEFAULT as state} from "../Common/Constant";
 
 const AddTodo = ({handleAdd}) => {
     const [value, setValue] = useState("");
@@ -16,7 +17,7 @@ const AddTodo = ({handleAdd}) => {
         handleAdd({
             id: uuidv4(),
             title,
-            done: false,
+            state,
         });
     }
     

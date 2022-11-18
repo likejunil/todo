@@ -1,11 +1,16 @@
 import React, {useState} from 'react';
 import Todo from "../Todo/Todo";
 import AddTodo from "../AddTodo/AddTodo";
+import TodoFilter from "../TodoFilter/TodoFilter";
+import {ALL} from "../Common/Constant";
 
 const TodoList = () => {
-    const [list, setList] = useState([
-        // {id: 100, title: "인생의 진리를 깨닫기", done: false},
-    ]);
+    const [list, setList] = useState([]);
+    const [filter, setFilter] = useState(ALL);
+    
+    const handleFilter = (filter) => {
+        setFilter(filter);
+    }
     
     const handleAdd = (todo) => {
         setList([...list, todo]);
@@ -21,13 +26,16 @@ const TodoList = () => {
     
     return (
         <div>
+            <TodoFilter handleFilter={handleFilter}/>
             <ul>
                 {
-                    list.map(m => <Todo
-                        key={m.id}
-                        todo={m}
-                        handleUpdate={handleUpdate}
-                        handleDelete={handleDelete}/>)
+                    list
+                        .filter(m => filter === ALL || filter === m.state)
+                        .map(m => <Todo
+                            key={m.id}
+                            todo={m}
+                            handleUpdate={handleUpdate}
+                            handleDelete={handleDelete}/>)
                 }
             </ul>
             <AddTodo handleAdd={handleAdd}/>
