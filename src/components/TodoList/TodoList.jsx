@@ -1,16 +1,31 @@
 import React, {useState} from 'react';
+import AddTodo from "../AddTodo/AddTodo";
+import {v4 as uuidv4} from "uuid";
+import {FaTrashAlt} from 'react-icons/fa';
 
 const TodoList = () => {
-    const [todo, setTodo] = useState([
-        {id: 123, title: "공부하기", state: true},
-        {id: 124, title: "운동하기", state: true},
+    const [list, setList] = useState([
+        // {id: 100, title: "인생의 진리를 깨닫기", done: false},
     ]);
+    
+    const addTodo = (todo) => {
+        setList([...list, {
+            id: uuidv4(),
+            title: todo,
+            done: false,
+        }]);
+    };
     
     return (
         <div>
             <ul>
-                {todo.map(m => <li key={m.id}>{m.title}</li>)}
+                {list.map(m => <li key={m.id}>
+                    <input type="checkbox"/>
+                    {m.title}
+                    <FaTrashAlt/>
+                </li>)}
             </ul>
+            <AddTodo addTodo={addTodo}/>
         </div>
     );
 };
