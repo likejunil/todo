@@ -1,37 +1,36 @@
 import React, {useState} from 'react';
+import Todo from "../Todo/Todo";
 import AddTodo from "../AddTodo/AddTodo";
-import {v4 as uuidv4} from "uuid";
-import {FaTrashAlt} from 'react-icons/fa';
 
 const TodoList = () => {
     const [list, setList] = useState([
         // {id: 100, title: "인생의 진리를 깨닫기", done: false},
     ]);
     
-    const onAdd = (todo) => {
-        setList([...list, {
-            id: uuidv4(),
-            title: todo,
-            done: false,
-        }]);
+    const handleAdd = (todo) => {
+        setList([...list, todo]);
     };
     
-    const onDel = (event) => {
-        const id = event.currentTarget.parentNode.id;
+    const handleUpdate = (todo) => {
+        setList(list.map(m => m.id === todo.id ? todo : m));
+    }
+    
+    const handleDelete = (id) => {
         setList(list.filter(m => m.id !== id));
-    };
+    }
     
     return (
         <div>
             <ul>
-                {list.map(m =>
-                    <li key={m.id} id={m.id}>
-                        <input type="checkbox"/>
-                        {m.title}
-                        <FaTrashAlt onClick={onDel}/>
-                    </li>)}
+                {
+                    list.map(m => <Todo
+                        key={m.id}
+                        todo={m}
+                        handleUpdate={handleUpdate}
+                        handleDelete={handleDelete}/>)
+                }
             </ul>
-            <AddTodo addTodo={onAdd}/>
+            <AddTodo handleAdd={handleAdd}/>
         </div>
     );
 };
